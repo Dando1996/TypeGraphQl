@@ -70,7 +70,7 @@
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./dist/server/server.js",
     "prod": "tsc && node ./dist/server/server.js",
-    "start:dev": "npm run dev && npm run start"
+    "start:dev": "npm run dev | npm run start"
   },
   "eslintConfig": {
     "extends": "react-app"
