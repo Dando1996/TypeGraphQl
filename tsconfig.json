@@ -1,25 +1,20 @@
+
 {
   "compilerOptions": {
-    "target": "es5",
+    "sourceMap": true,
+    "target": "es2015",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "module": "commonJS",
     "allowSyntheticDefaultImports": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
     "jsx": "preserve",
-    "outDir": "./build",
-    "sourceMap": true
   },
   "typeRoots": [
      "node_modules/@types"
@@ -29,7 +24,6 @@
     "src/**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "node_modules"
   ]
 }
