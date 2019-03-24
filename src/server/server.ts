@@ -1,4 +1,11 @@
 import App from './App'
+import 'dotenv/config';
 
-const app = new App(3001)
-app.listen()
+const env = process.env.NODE_ENV;
+console.log('env: ' + env)
+
+const port = parseInt(process.env.PORT) || 3001;
+console.log('port: ' + port)
+
+const app = new App(port)
+app.listen(port)

@@ -20,7 +20,7 @@
     "body-parser": "^1.18.3",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "css-loader": "1.0.0",
-    "dotenv": "6.0.0",
+    "dotenv": "^6.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "5.12.0",
     "eslint-config-react-app": "^3.0.7",
@@ -68,10 +68,10 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/server/server.ts",
-    "prod": "tsc && node ./dist/server/server.js",
+    "dev": "ts-node-dev --respawn --transpileOnly -r dotenv/config -- ./src/server/server.ts",
+    "prod": "SET NODE_ENV=production && tsc && node -r dotenv/config ./dist/server/server.js",
     "start:dev": "npm run dev | npm run start",
-    "debug": "tsc && node --inspect ./dist/server/server.js"
+    "debug": "ts-node-dev --inspect -r dotenv/config -- ./dist/server/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -84,6 +84,7 @@
   ],
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
+    "@types/dotenv": "^6.1.0",
     "@types/morgan": "^1.7.35",
     "ts-node": "^8.0.3",
     "ts-node-dev": "^1.0.0-pre.32"
