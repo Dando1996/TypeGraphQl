@@ -1,16 +1,18 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-
+import { MongoClient } from 'mongodb';
 
 class App {
   public expressApp: any
   public port: number
+  public mongoClient: MongoClient
 
   constructor (port: number, middleWares?: any) {
     this.expressApp = express()
     this.initializeMiddlewares(middleWares)
     this.mountRoutes()
     this.port = port
+    this.mongoClient = this.initializeMongoClient()
   }
 
   private mountRoutes (): void {
@@ -36,6 +38,17 @@ class App {
     controllers.forEach((controller) => {
       this.expressApp.use('/', controller.router)
     });
+  }
+
+  public initializeMongoClient() {
+    const {
+      MONGO_USER,
+      MONGO_PWD,
+      MONGO_PATH,
+      MP_LAB_CLUSTER
+    } = process.env;
+    const uri = `mongodb+srv://${MONGO_USER}:${MONGO_PWD}@${MONGO_PATH}/test?retryWrites=true`;
+    return new MongoClient(uri, { useNewUrlParser: true });
   }
 
   public listen(port?: number, err?: any) {
