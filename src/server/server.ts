@@ -2,7 +2,6 @@ import App from './App'
 import 'dotenv/config';
 import ProductController from './Controllers/ProductController';
 import ProductSchema from './Schemas/ProductSchema';
-const assert = require('assert');
 
 const env = process.env.NODE_ENV;
 console.log('env: ' + env)

@@ -17,6 +17,3 @@ const productSchema = new mongoose.Schema({
 })
 
 export default productSchema;
-
-//TODO: fix this.product = false and this.product.find() not a function
-//productMdel doesn't seem to be instantiated?
