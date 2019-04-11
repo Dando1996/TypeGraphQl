@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import productSchema, { IProducts } from '../Schemas/ProductSchema.ts';
+import productSchema, { IProducts } from './ProductSchema.ts';
 
 const productModel = mongoose.model<IProducts & mongoose.Document>('Product', productSchema)
 /*

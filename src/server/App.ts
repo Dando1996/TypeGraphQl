@@ -1,51 +1,46 @@
-import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
-import Controller from './Controllers/types';
+import { GraphQLServer } from 'graphql-yoga';
 import errorMiddleware from './Middleware/error.middleware';
-import ProductController from './Controllers/ProductController';
+import Mutation from './graphql/Products/ProductMutations';
+import Query from './graphql/Products/ProductQuery';
+
+interface serverOptions {
+  port: number,
+  endpoint: string,
+  playground: string
+}
 
 class App {
+
+  private resolvers = {
+    Query,
+    Mutation
+  };
   public expressApp: any
-  public port: number
   public mongoClient: MongoClient
+  public server: GraphQLServer
+  public options: serverOptions;
 
-  constructor (port: number, middleWares?: any, controllers?: Controller[]) {
-    this.expressApp = express()
-    this.initializeMiddlewares(middleWares)
-    this.initializeControllers(controllers)
-    this.initializeErrorHandling()
-    this.mountRoutes()
-    this.port = port
-    this.mongoConnection = this.initializeMongoConnection()
-  }
-
-  private mountRoutes (): void {
-    const router = express.Router()
-
-    router.get('/', (req, res) => {
-      res.json({
-        message: 'Hello World!'
+  constructor (port: number, middleWares?: any) {
+    this.options = {
+      port: port,
+      endpoint: '/graphql',
+      playground: '/playground'
+    }
+    this.server = new GraphQLServer(
+      {
+        typeDefs: './src/server/graphql/Products/schema.graphql',
+        resolvers: this.resolvers
       })
-    })
-
-    router.post('/', (req, res) => {
-      res.send(req.body)
-    })
-
-    this.expressApp.use('/api', router)
+  //  this.expressApp = this.server.express() //exposing the express App from the GraphQLServer
+    //this.initializeMiddlewares(middleWares)
+    //this.initializeErrorHandling()
+    this.mongoConnection = this.initializeMongoConnection()
   }
 
   private initializeMiddlewares(middleWares?: any) {
     this.expressApp.use(bodyParser.json())
-  }
-
-  private initializeControllers(controllers?: Controllers[]) {
-    if (controllers !== undefined || controllers.length != 0){
-      controllers.forEach((controller) => {
-        this.expressApp.use('/api', controller.router)
-      });
-    }
   }
 
   public initializeMongoConnection() {
@@ -65,12 +60,9 @@ class App {
   }
 
   public listen(port?: number, err?: any) {
-    if (err) {
-      return console.log(err)
-    }
-    this.expressApp.listen(this.port, () => {
-      console.log(`App listening on the port ${this.port}`)
-    });
+    this.server.start( this.options, () => {
+      console.log(`Server is running on http://localhost: ${this.options.port}${this.options.endpoint}`)
+    })
   }
 }
 export default App;
