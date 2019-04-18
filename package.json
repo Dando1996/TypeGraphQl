@@ -36,6 +36,8 @@
     "file-loader": "2.0.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.1",
+    "graphql": "^14.2.1",
+    "graphql-import": "^0.7.1",
     "graphql-yoga": "^1.17.4",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",

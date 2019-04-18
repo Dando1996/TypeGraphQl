@@ -2,8 +2,8 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import { GraphQLServer } from 'graphql-yoga';
 import errorMiddleware from './Middleware/error.middleware';
-import Mutation from './graphql/Products/ProductMutations';
-import Query from './graphql/Products/ProductQuery';
+import schema from './graphql/schemas';
+import { MongoClient } from 'mongodb';
 
 interface serverOptions {
   port: number,
@@ -13,14 +13,10 @@ interface serverOptions {
 
 class App {
 
-  private resolvers = {
-    Query,
-    Mutation
-  };
   public expressApp: any
-  public mongoClient: MongoClient
   public server: GraphQLServer
   public options: serverOptions;
+  mongoConnection: MongoClient;
 
   constructor (port: number, middleWares?: any) {
     this.options = {
@@ -30,8 +26,7 @@ class App {
     }
     this.server = new GraphQLServer(
       {
-        typeDefs: './src/server/graphql/Products/schema.graphql',
-        resolvers: this.resolvers
+        schema: schema
       })
   //  this.expressApp = this.server.express() //exposing the express App from the GraphQLServer
     //this.initializeMiddlewares(middleWares)

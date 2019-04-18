@@ -1,6 +1,5 @@
 import App from './App'
 import 'dotenv/config';
-import ProductSchema from './graphql/Products/ProductSchema';
 
 const env = process.env.NODE_ENV;
 console.log('env: ' + env)
